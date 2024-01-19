@@ -13,11 +13,16 @@ router.get('/', function(req, res, next) {
   let recommendationsData = fs.readFileSync(path.resolve(__dirname, "../data/recommendations.json"), "utf8");
   let recommendations = JSON.parse(recommendationsData);
 
-  // Pass both data sets to the view
+  // Read portfolio.json
+  let portfolioData = fs.readFileSync(path.resolve(__dirname, "../data/portfolio.json"), "utf8");
+  let cakes = JSON.parse(portfolioData);
+
+  // Pass all data sets to the view
   res.render('index', { 
     title: 'Express',
     array: introArray,
-    recommendations: recommendations
+    recommendations: recommendations,
+    cakes: cakes // adding cakes data
   });
 });
 
