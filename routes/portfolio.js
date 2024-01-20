@@ -7,6 +7,9 @@ var router = express.Router();
 const fs = require("fs");
 const path = require("path");
 
+var ensureLogIn = require('connect-ensure-login').ensureLoggedIn;
+var ensureLoggedIn = ensureLogIn();
+
 // Download image to the server
 var download = function(url, filename, callback) {
   request.head(url, function(err, res, body) {
@@ -52,7 +55,7 @@ router.post('/', jsonParser, function(req, res, next) {
 });
 
 
-router.delete('/', jsonParser, function(req, res, next) {
+router.delete('/', jsonParser, ensureLoggedIn, function(req, res, next) {
   let rawdata = fs.readFileSync(path.resolve(__dirname, "../data/portfolio.json"));
   let portfoliosArray = JSON.parse(rawdata);
   const newArray = portfoliosArray.filter(x => x.name !== req.body.name)
